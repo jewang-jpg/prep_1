@@ -62,4 +62,4 @@ jobs:
         with:
           context: . # Use the repo root as the build context (where the Dockerfile lives)
           push: true
-          tags: wangjialin2/prep_1:latest # Tag the image as "latest" on Docker Hub
+          tags: jlw2000/prep_1:latest # Tag the image as "latest" on Docker Hub
