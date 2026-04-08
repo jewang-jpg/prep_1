@@ -1,0 +1,16 @@
+# Redis data
+dump.rdb
+
+# VS Code
+.vscode/
+
+# macOS
+.DS_Store
+
+# binaries
+*.exe
+*.out
+*.test
+
+# env files / secrets
+.env
