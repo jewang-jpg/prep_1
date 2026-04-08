@@ -129,7 +129,10 @@ func createUser(w http.ResponseWriter, r *http.Request) {
 	// Respond with the created user as JSON and a 201 Created status code	
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
-	json.NewEncoder(w).Encode(user) 
+	if err := json.NewEncoder(w).Encode(user); err != nil {
+	http.Error(w, "response error", http.StatusInternalServerError)
+	return
+	}
 	// Converts the Go user struct into JSON and writes it into the response body 
 	// via w (the ResponseWriter).
 }
@@ -150,7 +153,10 @@ func getUser(w http.ResponseWriter, r *http.Request, id string) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	w.Write([]byte(data))
+	if _, err := w.Write([]byte(data)); err != nil {
+	http.Error(w, "response error", http.StatusInternalServerError)
+	return
+	}
 }
 
 // updateUser replaces an existing user's data; returns 404 if the user doesn't exist
@@ -197,7 +203,10 @@ func updateUser(w http.ResponseWriter, r *http.Request, id string) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(user)
+	if _, err := w.Write([]byte(data)); err != nil {
+	http.Error(w, "response error", http.StatusInternalServerError)
+	return
+	}
 }
 
 // deleteUser removes the user's key from Redis and its ID from the "users" set
@@ -244,5 +253,8 @@ func listUsers(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(users)
+	if err := json.NewEncoder(w).Encode(users); err != nil {
+	http.Error(w, "response error", http.StatusInternalServerError)
+	return
+	}
 }
